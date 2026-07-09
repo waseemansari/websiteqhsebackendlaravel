@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('subject');
             $table->string('message');
             $table->string('hear_about');
-            $table->enum('status',['active','inactive'])->default('active');
+            $table->enum('status',['new','readed'])->default('new');
             $table->string('branch_id');
             $table->timestamps();
         });

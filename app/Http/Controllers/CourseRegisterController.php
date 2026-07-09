@@ -6,15 +6,22 @@ use App\Models\CourseRegister;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Events\CourseRegisterEvent;
-
+use Auth;
 class CourseRegisterController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(CourseRegister::latest()->get());
+        $branchId = Auth::user()->branch_id;
+        $details = CourseRegister::where('branch_id', $branchId)->latest()->get();
+
+        if ($request->expectsJson() && $request->is('api/*')) {
+            return response()->json($details);
+        }
+
+        return view('course-register.index', compact('details'));
     }
 
     /**

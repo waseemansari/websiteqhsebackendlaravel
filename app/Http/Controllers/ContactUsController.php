@@ -7,12 +7,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\{ContactUsMailToAdmin};
 use Illuminate\Support\Facades\Mail;
-
+use Auth;
 class ContactUsController extends Controller
 {
-     public function index()
+     public function index(Request $request)
     {
-        return response()->json(ContactUs::latest()->get());
+        $branchId = Auth::user()->branch_id;
+        $details = ContactUs::where('branch_id', $branchId)->latest()->get();
+
+        if ($request->expectsJson() && $request->is('api/*')) {
+            return response()->json($details);
+        }
+
+        return view('contact-us.index', compact('details'));
     }
 
     /**
