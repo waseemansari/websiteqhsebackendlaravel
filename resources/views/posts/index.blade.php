@@ -70,9 +70,14 @@
                                     </span>
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-sm font-medium">
-                                    <a href="{{ route('post.show', $post->id) }}" class="text-cyan-600 hover:text-cyan-700">
-                                        View
-                                    </a>
+                                    <div class="flex items-center gap-3">
+                                        <a href="{{ route('post.show', $post->id) }}" class="text-cyan-600 hover:text-cyan-700">
+                                            View
+                                        </a>
+                                        <a href="{{ route('post.edit', $post->id) }}" class="text-amber-600 hover:text-amber-700">
+                                            Edit
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

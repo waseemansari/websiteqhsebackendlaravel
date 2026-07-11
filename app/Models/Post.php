@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+        protected $appends = [
+            'image_url'
+        ];
         protected $fillable=[
                 'title',
                 'slug',
@@ -28,7 +31,17 @@ class Post extends Model
 
         public function tags()
         {
-            return $this->belongsToMany(Tag::class);
+            return $this->belongsToMany(Tag::class, 'post_tags');
+        }
+
+
+        public function getImageUrlAttribute()
+        {
+            if (!$this->featured_image) {
+                return null;
+            }
+
+            return env('DO_SPACES_URL') .'/' . $this->featured_image;
         }
 
 
