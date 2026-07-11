@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('feed_back_answers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('course_feedback_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('feedback_id')
+            ->constrained('feed_backs')
+            ->cascadeOnDelete();
             $table->unsignedTinyInteger('question_no');
             $table->enum('answer', [
                 'Strongly Agree',

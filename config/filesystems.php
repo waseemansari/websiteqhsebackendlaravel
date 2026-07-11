@@ -27,7 +27,6 @@ return [
     | Supported drivers: "local", "ftp", "sftp", "s3"
     |
     */
-
     'disks' => [
 
         'local' => [
@@ -41,7 +40,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
+            'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
             'throw' => false,
             'report' => false,
@@ -59,6 +58,17 @@ return [
             'throw' => false,
             'report' => false,
         ],
+       'spaces' => [
+            'driver' => 's3',
+            'key' => env('DO_SPACES_KEY'),
+            'secret' => env('DO_SPACES_SECRET'),
+            'endpoint' => env('DO_SPACES_ENDPOINT', 'https://sgp1.digitaloceanspaces.com'),
+            'region' => env('DO_SPACES_REGION', 'sgp1'),
+            'bucket' => env('DO_SPACES_BUCKET', 'qhsecrm'),
+            'url' => env('DO_SPACES_URL', 'https://qhsecrm.sgp1.cdn.digitaloceanspaces.com'),
+            'visibility' => 'public',
+        ],
+
 
     ],
 

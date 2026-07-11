@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{CourseRegisterController,FeedBackController,ContactUsController};
+use App\Http\Controllers\{PostController,CourseRegisterController,FeedBackController,ContactUsController};
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function () {
 Route::Resource('course-register', CourseRegisterController::class);
 Route::Resource('contact-us', ContactUsController::class);
 Route::Resource('feedback', FeedBackController::class);
+Route::Resource('post', PostController::class);
 
 
 

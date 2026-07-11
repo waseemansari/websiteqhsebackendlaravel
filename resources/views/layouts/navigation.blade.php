@@ -25,6 +25,8 @@
                 ['label' => 'FeedBack', 'url' => '/feedback', 'icon' => 'M5 8h14M5 8a2 2 0 012-2h10a2 2 0 012 2M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4'],
                 ['label' => 'Users Register Course', 'url' => '/course-register', 'icon' => 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z'],
                 ['label' => 'Contact with experts', 'url' => '/contact-us', 'icon' => 'M3 3h2l.5 2M7 13h10l4-8H5.5M7 13L5.5 5M7 13l-1.4 2.8a1 1 0 00.9 1.4h12.2'],
+                ['label' => 'Blogs', 'url' => '/post', 'icon' => 'M3 3h2l.5 2M7 13h10l4-8H5.5M7 13L5.5 5M7 13l-1.4 2.8a1 1 0 00.9 1.4h12.2'],
+                 ['label' => 'Add New Blogs', 'url' => '/post/create', 'icon' => 'M3 3h2l.5 2M7 13h10l4-8H5.5M7 13L5.5 5M7 13l-1.4 2.8a1 1 0 00.9 1.4h12.2'],
             ];
         @endphp 
 

@@ -13,6 +13,38 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
+            
+            $table->string('title');
+            $table->unsignedInteger('category_id')->default(0);
+            $table->string('slug')
+                ->unique();
+            $table->text('excerpt')
+                ->nullable();
+            $table->longText('content');
+            $table->string('featured_image')
+                ->nullable();
+            $table->string('meta_title')
+                ->nullable();
+            $table->text('meta_description')
+                ->nullable();
+            $table->string('meta_keywords')
+                ->nullable();
+            $table->string('og_title')
+                ->nullable();
+
+            $table->text('og_description')
+                ->nullable();
+
+            $table->string('og_image')
+                ->nullable();
+            $table->enum('status',[
+                'draft',
+                'published'
+            ])
+            ->default('draft');
+            $table->timestamp('published_at')->nullable();
+            $table->integer('views')->default(0);
+            $table->string('branch_id');
             $table->timestamps();
         });
     }

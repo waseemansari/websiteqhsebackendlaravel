@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class FeedBackAnswer extends Model
 {
     protected $fillable = [
-        'course_feedback_id',
+        'feedback_id',
         'question_no',
         'answer',
     ];

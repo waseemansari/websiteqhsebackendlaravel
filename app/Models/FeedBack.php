@@ -24,6 +24,6 @@ class FeedBack extends Model
 
     public function answers()
     {
-        return $this->hasMany(FeedBackAnswer::class, 'course_feedback_id');
+        return $this->hasMany(FeedBackAnswer::class, 'feedback_id');
     }
 }

@@ -65,7 +65,7 @@ class FeedBackController extends Controller
             if (is_numeric($key)) {
 
                 FeedbackAnswer::create([
-                    'course_feedback_id' => $feedback->id,
+                    'feedback_id' => $feedback->id,
                     'question_no'        => $key,
                     'answer'             => $value,
                 ]);
