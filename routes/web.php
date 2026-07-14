@@ -26,6 +26,7 @@ Route::Resource('post', PostController::class);
 
 Route::get('news-letters/bulk', [NewsletterSubscriberController::class, 'bulk'])->name('news-letters.bulk');
 Route::post('news-letters/bulk-send', [NewsletterSubscriberController::class, 'sendBulk'])->name('news-letters.bulk.send');
+Route::get('news-letters/unsubscribe/{subscriber}', [NewsletterSubscriberController::class, 'unsubscribe'])->middleware('signed')->name('news-letters.unsubscribe');
 Route::Resource('news-letters', NewsletterSubscriberController::class);
 
 

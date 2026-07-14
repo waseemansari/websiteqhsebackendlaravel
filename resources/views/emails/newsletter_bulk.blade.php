@@ -88,14 +88,17 @@
 
         <div class="email-body">
             <p>Hello {{ $recipientName }},</p>
-            
-             
-           
             <p>{!! nl2br(e($messageBody)) !!}</p>
+            <p>If you do not wish to receive future emails, you can unsubscribe below.</p>
 
+            @if(!empty($unsubscribeUrl))
+                <p>
+                    <a href="{{ $unsubscribeUrl }}" class="btn">Unsubscribe</a>
+                </p>
+            @endif
 
             <p>If you have any questions, our support team is happy to help.</p>
-             <p>Thank you for subscribing to our newsletter.</p>
+            <p>Thank you for subscribing to our newsletter.</p>
             <p>
                 Kind Regards,<br>
                 <strong>{{ $company['company_manager'] }}</strong><br>

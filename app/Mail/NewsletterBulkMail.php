@@ -16,12 +16,14 @@ class NewsletterBulkMail extends Mailable
     public string $messageBody;
     public $company;
     public $recipientName;
+    public ?string $unsubscribeUrl;
     
-    public function __construct(string $subjectLine, string $messageBody, string $recipientName = null)
+    public function __construct(string $subjectLine, string $messageBody, string $recipientName = null, string $unsubscribeUrl = null)
     {
         $this->subjectLine = $subjectLine;
         $this->messageBody = $messageBody;
         $this->recipientName = $recipientName;
+        $this->unsubscribeUrl = $unsubscribeUrl;
         $this->company = config('custom');
     }
 
@@ -41,6 +43,7 @@ class NewsletterBulkMail extends Mailable
                 'messageBody' => $this->messageBody,
                 'company' => $this->company,
                 'recipientName' => $this->recipientName,
+                'unsubscribeUrl' => $this->unsubscribeUrl,
             ]
         );
     }

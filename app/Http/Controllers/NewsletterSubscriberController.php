@@ -6,6 +6,7 @@ use App\Mail\NewsletterBulkMail;
 use App\Models\NewsletterSubscriber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 
 class NewsletterSubscriberController extends Controller
@@ -130,10 +131,20 @@ class NewsletterSubscriberController extends Controller
             'message' => 'required|string',
         ]);
 
-        $subscribers = NewsletterSubscriber::where('status', '=', 'subscribed')->get();
+        $subscribers = NewsletterSubscriber::where('status', 'subscribed')->get();
 
         foreach ($subscribers as $subscriber) {
-            Mail::to($subscriber->email)->send(new NewsletterBulkMail($request->subject, $request->message, $subscriber->name));
+            $unsubscribeUrl = URL::signedRoute('news-letters.unsubscribe', ['subscriber' => $subscriber->id]);
+            $recipientName = $subscriber->name ?? $subscriber->email;
+
+            Mail::to($subscriber->email)->send(
+                new NewsletterBulkMail(
+                    $request->subject,
+                    $request->message,
+                    $recipientName,
+                    $unsubscribeUrl
+                )
+            );
         }
 
         return redirect()->route('news-letters.bulk')
@@ -158,29 +169,13 @@ class NewsletterSubscriberController extends Controller
     /**
      * Unsubscribe by email.
      */
-    public function unsubscribe(Request $request)
+    public function unsubscribe(NewsletterSubscriber $subscriber)
     {
-        $request->validate([
-            'email' => 'required|email',
-        ]);
-
-        $subscriber = NewsletterSubscriber::where('email', $request->email)->first();
-
-        if (!$subscriber) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Subscriber not found.',
-            ], 404);
-        }
-
         $subscriber->update([
             'status' => 'unsubscribed',
             'unsubscribed_at' => now(),
         ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'You have been unsubscribed successfully.',
-        ]);
+        return view('newsletter.unsubscribed', compact('subscriber'));
     }
 }
