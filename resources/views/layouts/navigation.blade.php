@@ -35,6 +35,17 @@
                     'url' => '/post/create',
                     'icon' => 'M7 2a2 2 0 00-2 2v16a2 2 0 002 2h10a2 2 0 002-2V8l-6-6H7zm6 1.5L18.5 9H13V3.5zM8 12h8M8 16h8M8 20h5M19 18v6M16 21h6'
                 ],
+                [
+                    'label' => 'Newsletter Subscribers',
+                    'url' => '/news-letters',
+                    'icon' => 'M7 2a2 2 0 00-2 2v16a2 2 0 002 2h10a2 2 0 002-2V8l-6-6H7zm6 1.5L18.5 9H13V3.5zM8 12h8M8 16h8M8 20h5'
+                ],
+               
+                [
+                    'label' => 'Send Email Newsletter Subscribers',
+                    'url' => '/news-letters/bulk',
+                    'icon' => 'M7 2a2 2 0 00-2 2v16a2 2 0 002 2h10a2 2 0 002-2V8l-6-6H7zm6 1.5L18.5 9H13V3.5zM8 12h8M8 16h8M8 20h5'
+                ],
             ];
         @endphp 
 

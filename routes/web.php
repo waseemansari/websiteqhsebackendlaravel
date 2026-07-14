@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{PostController,CourseRegisterController,FeedBackController,ContactUsController};
+use App\Http\Controllers\{NewsletterSubscriberController,PostController,CourseRegisterController,FeedBackController,ContactUsController};
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,6 +23,10 @@ Route::Resource('course-register', CourseRegisterController::class);
 Route::Resource('contact-us', ContactUsController::class);
 Route::Resource('feedback', FeedBackController::class);
 Route::Resource('post', PostController::class);
+
+Route::get('news-letters/bulk', [NewsletterSubscriberController::class, 'bulk'])->name('news-letters.bulk');
+Route::post('news-letters/bulk-send', [NewsletterSubscriberController::class, 'sendBulk'])->name('news-letters.bulk.send');
+Route::Resource('news-letters', NewsletterSubscriberController::class);
 
 
 
