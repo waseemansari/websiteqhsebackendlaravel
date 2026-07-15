@@ -63,7 +63,19 @@
                 <label class="block text-sm font-medium text-slate-700">Featured image (file)</label>
                 <input type="file" name="featured_image" accept="image/*" class="mt-1 w-full rounded border-gray-200">
             </div>
-
+            
+            <div class="mb-3">
+                <label class="block text-sm font-medium text-slate-700">Meta title</label>
+                <input type="text" name="meta_title" class="mt-1 w-full rounded border-gray-200" value="{{ old('meta_title') }}">
+            </div>
+            <div class="mb-3">
+                <label class="block text-sm font-medium text-slate-700">Meta description</label>
+                <input type="text" name="meta_description" class="mt-1 w-full rounded border-gray-200" value="{{ old('meta_description') }}">
+            </div>
+            <div class="mb-3">
+                <label class="block text-sm font-medium text-slate-700">Meta Keywords</label>
+                <input type="text" name="meta_keywords" class="mt-1 w-full rounded border-gray-200" value="{{ old('meta_keywords') }}">
+            </div>
             <div class="mb-3">
                 <label class="block text-sm font-medium text-slate-700">Status</label>
                 <select name="status" class="mt-1 w-full rounded border-gray-200">

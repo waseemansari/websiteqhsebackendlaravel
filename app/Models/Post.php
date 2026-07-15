@@ -17,6 +17,7 @@ class Post extends Model
                 'featured_image',
                 'meta_title',
                 'meta_description',
+                'meta_keywords',
                 'status',
                 'published_at',
                 'category_id',

@@ -50,8 +50,9 @@ class PostController extends Controller
      */
     public function create()
     {
+        $branchId = Auth::user()->branch_id;
         $categories = Category::orderBy('name')->get();
-        $tags = Tag::orderBy('name')->get();
+        $tags = Tag::where('branch_id', $branchId)->orderBy('name')->get();
         return view('posts.create', compact('categories','tags'));
     }
 
@@ -68,9 +69,10 @@ class PostController extends Controller
             'featured_image' => 'nullable|file|image|max:2048',
             'meta_title' => 'nullable|string',
             'meta_description' => 'nullable|string',
+            'meta_keywords' => 'nullable|string',
             'status' => 'required|in:draft,published',
             'published_at' => 'nullable|date',
-            'category_id' => 'nullable|exists:categories,id',
+            'category_id' => 'required|exists:categories,id',
             'tags' => 'nullable|array',
             'tags.*' => 'nullable',
             'branch_id' => 'nullable|string'
