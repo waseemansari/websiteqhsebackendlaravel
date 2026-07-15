@@ -8,5 +8,6 @@ Route::post('contact-us', [ContactUsController::class, 'store']);
 Route::post('feedback', [FeedBackController::class, 'store']);
 
 Route::get('blog', [PostController::class, 'ApiGetBlogPosts']);
+Route::get('blog/{id}', [PostController::class, 'ApiGetSingleBlogPost']);
 
 Route::post('news-letters', [NewsletterSubscriberController::class, 'store']);

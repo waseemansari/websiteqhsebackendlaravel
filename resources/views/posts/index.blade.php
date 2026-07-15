@@ -52,10 +52,10 @@
                         
                             <tr class="hover:bg-slate-50 @if($post->status == 'new') font-black text-8xl text-emerald-600 @endif">
                                <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-600">{{ $post->id }}</td>
-                                <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-600">{{ $post->title }}</td>
+                                <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-600">{{ \Illuminate\Support\Str::words($post->title, 5, '...') }}</td>
                                 <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-600">{{ $post->category->name ?? 'Uncategorized' }}</td>
-                                <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-600">{{ $post->excerpt }}</td>
-                                <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-600">{{ $post->content }}</td>
+                                <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-600">{{ \Illuminate\Support\Str::words($post->excerpt, 5, '...') }}</td>
+                                <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-600">{{ \Illuminate\Support\Str::words($post->content, 5, '...') }}</td>
                                 <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-600">
                                     @if($post->featured_image)
                                     <img src="{{ env('DO_SPACES_URL') . '/' . $post->featured_image }}"
@@ -77,6 +77,14 @@
                                         <a href="{{ route('post.edit', $post->id) }}" class="text-amber-600 hover:text-amber-700">
                                             Edit
                                         </a>
+                                        
+                                        <form action="{{ route('post.destroy', $post->id) }}" method="POST" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 hover:text-red-700" onclick="return confirm('Are you sure you want to delete this post?')">
+                                                Delete
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

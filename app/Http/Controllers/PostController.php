@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Category;
-use App\Models\Tag;
+use App\Models\{Tag,PostTag};
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Auth;
@@ -12,6 +12,7 @@ use App\Helpers\ImageUploadHelper;
 
 class PostController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      */
@@ -166,9 +167,11 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy($id)
     {
-        //
+        Post::where('id', $id)->delete();
+        PostTag::where('post_id', $id)->delete();
+        return redirect()->route('post.index')->with('success', 'Post deleted');    
     }
 
     public function ApiGetBlogPosts(Request $request)
@@ -186,6 +189,21 @@ class PostController extends Controller
             'blog'=>$posts,
             'status'=>200,
             'message'=>'Blogs List'
+        ]);
+    }
+
+    public function ApiGetSingleBlogPost($id)
+    {
+        
+        $post = Post::where('status', 'published')
+            ->with(['category', 'tags'])
+            ->orderBy('published_at', 'desc')
+            ->first();
+
+        return response()->json([
+            'blog'=>$post,
+            'status'=>200,
+            'message'=>'Single Blog Post'
         ]);
     }
 }
