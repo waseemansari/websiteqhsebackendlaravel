@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{NewsletterSubscriberController,CourseRegisterController,FeedBackController,ContactUsController,PostController};
+use App\Http\Controllers\{OnlinePaymentController,NewsletterSubscriberController,CourseRegisterController,FeedBackController,ContactUsController,PostController};
 
 Route::post('course-register', [CourseRegisterController::class, 'store']);
 Route::post('contact-us', [ContactUsController::class, 'store']);
@@ -11,3 +11,5 @@ Route::get('blog', [PostController::class, 'ApiGetBlogPosts']);
 Route::get('blog/{id}', [PostController::class, 'ApiGetSingleBlogPost']);
 
 Route::post('news-letters', [NewsletterSubscriberController::class, 'store']);
+
+Route::post('payment', [OnlinePaymentController::class,'store']);

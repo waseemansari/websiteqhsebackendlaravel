@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{NewsletterSubscriberController,PostController,CourseRegisterController,FeedBackController,ContactUsController};
+use App\Http\Controllers\{OnlinePaymentController,NewsletterSubscriberController,PostController,CourseRegisterController,FeedBackController,ContactUsController};
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,8 +26,11 @@ Route::middleware('auth')->group(function () {
     Route::Resource('news-letters', NewsletterSubscriberController::class);
 });
 
+    Route::get('payment', [OnlinePaymentController::class,'create']);
+    Route::post('payment', [OnlinePaymentController::class,'store']);
 
-
+    Route::post('/payment/response', [OnlinePaymentController::class, 'response'])
+    ->name('ccavenue.response');
 
 
 
