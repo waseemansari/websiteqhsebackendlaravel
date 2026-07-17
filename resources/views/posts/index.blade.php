@@ -54,8 +54,8 @@
                                <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-600">{{ $post->id }}</td>
                                 <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-600">{{ \Illuminate\Support\Str::words($post->title, 5, '...') }}</td>
                                 <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-600">{{ $post->category->name ?? 'Uncategorized' }}</td>
-                                <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-600">{{ \Illuminate\Support\Str::words($post->excerpt, 5, '...') }}</td>
-                                <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-600">{{ \Illuminate\Support\Str::words($post->content, 5, '...') }}</td>
+                                <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-600">{{ \Illuminate\Support\Str::words(strip_tags($post->excerpt), 3, '...') }}</td>
+                                <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-600">{{ \Illuminate\Support\Str::words(strip_tags($post->content), 3, '...') }}</td>
                                 <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-600">
                                     @if($post->featured_image)
                                     <img src="{{ env('DO_SPACES_URL') . '/' . $post->featured_image }}"

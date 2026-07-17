@@ -36,12 +36,12 @@
 
         <div class="mt-8 border-t border-slate-200 pt-6">
             <p class="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">Excerpt</p>
-            <p class="mt-2 text-base leading-7 text-slate-700">{{ $post->excerpt }}</p>
+            <div class="mt-2 text-base leading-7 text-slate-700">{!! $post->excerpt !!}</div>
         </div>
 
         <div class="mt-8 border-t border-slate-200 pt-6">
             <p class="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">Content</p>
-            <div class="mt-2 text-base leading-7 text-slate-700">{!! nl2br(e($post->content)) !!}</div>
+            <div class="mt-2 text-base leading-7 text-slate-700">{!! $post->content !!}</div>
         </div>
 
         @if($post->featured_image)

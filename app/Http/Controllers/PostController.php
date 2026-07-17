@@ -197,6 +197,7 @@ class PostController extends Controller
         
         $post = Post::where('status', 'published')
             ->with(['category', 'tags'])
+            ->where('id', $id)
             ->orderBy('published_at', 'desc')
             ->first();
 

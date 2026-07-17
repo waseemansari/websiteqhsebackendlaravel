@@ -51,12 +51,12 @@
 
             <div class="mb-3">
                 <label class="block text-sm font-medium text-slate-700">Excerpt</label>
-                <textarea name="excerpt" class="mt-1 w-full rounded border-gray-200">{{ old('excerpt') }}</textarea>
+                <textarea name="excerpt" id="excerpt" class="mt-1 w-full rounded border-gray-200" rows="6">{{ old('excerpt') }}</textarea>
             </div>
 
             <div class="mb-3">
                 <label class="block text-sm font-medium text-slate-700">Content</label>
-                <textarea name="content" class="mt-1 w-full rounded border-gray-200" rows="6">{{ old('content') }}</textarea>
+                <textarea id="content" name="content" class="mt-1 w-full rounded border-gray-200" rows="16">{{ old('content') }}</textarea>
             </div>
 
             <div class="mb-3">
@@ -70,7 +70,8 @@
             </div>
             <div class="mb-3">
                 <label class="block text-sm font-medium text-slate-700">Meta description</label>
-                <input type="text" name="meta_description" class="mt-1 w-full rounded border-gray-200" value="{{ old('meta_description') }}">
+                <textarea  name="meta_description" class="mt-1 w-full rounded border-gray-200">{{ old('meta_description') }}</textarea>
+                
             </div>
             <div class="mb-3">
                 <label class="block text-sm font-medium text-slate-700">Meta Keywords</label>
@@ -91,4 +92,64 @@
             </div>
         </form>
     </div>
+
+    @push('scripts')
+
+<script src="https://cdn.tiny.cloud/1/jh3wxkkytapr4l9oso0n0rvslmc08exbtavrbpubb86dm89g/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    tinymce.init({
+        selector: '#excerpt, #content',
+
+        height: 400,
+
+        menubar: true,
+
+        plugins: [
+            'advlist',
+            'autolink',
+            'lists',
+            'link',
+            'image',
+            'charmap',
+            'preview',
+            'anchor',
+            'searchreplace',
+            'visualblocks',
+            'code',
+            'fullscreen',
+            'insertdatetime',
+            'media',
+            'table',
+            'help',
+            'wordcount'
+        ],
+
+        toolbar:
+            'undo redo | ' +
+            'blocks | ' +
+            'bold italic underline | ' +
+            'alignleft aligncenter alignright alignjustify | ' +
+            'bullist numlist | ' +
+            'link image media | ' +
+            'table | ' +
+            'code',
+
+        toolbar_mode: 'wrap',
+
+        content_style: `
+            body {
+                font-family: Arial, sans-serif;
+                font-size: 16px;
+            }
+        `
+
+    });
+
+});
+</script>
+
+@endpush
 </x-app-layout>
+ 
