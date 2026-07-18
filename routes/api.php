@@ -10,6 +10,9 @@ Route::post('feedback', [FeedBackController::class, 'store']);
 Route::get('blog', [PostController::class, 'ApiGetBlogPosts']);
 Route::get('blog/{id}', [PostController::class, 'ApiGetSingleBlogPost']);
 
+
+Route::get('case-study', [PostController::class, 'caseStudy']);
+
 Route::post('news-letters', [NewsletterSubscriberController::class, 'store']);
 
 Route::post('payment', [OnlinePaymentController::class,'store']);

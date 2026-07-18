@@ -88,7 +88,11 @@
 
         <div class="email-body">
             <p>Hello {{ $recipientName }},</p>
-            <p>{!! nl2br(e($messageBody)) !!}</p>
+            @if($messageBody === strip_tags($messageBody))
+                {!! nl2br(e($messageBody)) !!}
+            @else
+                {!! $messageBody !!}
+            @endif
             <p>If you do not wish to receive future emails, you can unsubscribe below.</p>
 
             @if(!empty($unsubscribeUrl))

@@ -45,6 +45,64 @@ class NewsletterSubscriberController extends Controller
             'ip_address' => $request->ip(),
             'source' => $request->source ?? 'website',
         ]);
+         if($subscriber){
+            $unsubscribeUrl = URL::signedRoute('news-letters.unsubscribe', ['subscriber' => $subscriber->id]);
+            $recipientName = $subscriber->name ?? $subscriber->email;
+            $message = <<<HTML
+<p>Thank you for being part of the QHSE International community.</p>
+
+<p>
+This month, we have shared new educational blogs on the
+<strong>QHSE International Knowledge Hub</strong>, created to support
+professionals, organizations, and teams who want to strengthen their
+knowledge in Quality, Health, Safety, Environment, ESG, Risk Management,
+Fire and Life Safety, Emergency Preparedness, Business Continuity, and compliance.
+</p>
+
+<p>
+Our blogs are designed to provide practical insights, expert guidance,
+and industry-relevant knowledge that can help organizations improve performance,
+protect people, manage risks, and build safer, stronger, and more resilient workplaces.
+</p>
+
+<p>
+We invite you to visit the QHSE International website to read our latest articles
+and continue learning from our team of experts.
+</p>
+
+<p style="text-align:center; margin:30px 0;">
+    <a href="https://app.qhseinternational.com/blog/main"
+       target="_blank"
+       style="
+            background:#0d6efd;
+            color:#ffffff;
+            padding:14px 28px;
+            border-radius:6px;
+            text-decoration:none;
+            font-weight:bold;
+            font-size:16px;
+            font-family:Arial, Helvetica, sans-serif;
+            display:inline-block;">
+        📖 Read Our Latest Blogs
+    </a>
+</p>
+
+<p>
+Stay connected with us for more educational QHSE blogs, compliance insights,
+industry updates, and practical safety guidance.
+</p>
+HTML;
+
+Mail::to($subscriber->email)->send(
+    new NewsletterBulkMail(
+        'New QHSE Insights Are Now Available',
+        $message,
+        $recipientName,
+        $unsubscribeUrl
+    )
+);
+         }
+       
 
         return response()->json([
             'success' => true,

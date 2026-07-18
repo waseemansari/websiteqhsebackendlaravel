@@ -181,6 +181,7 @@ class PostController extends Controller
                 $query->where('branch_id', $branchId);
             })
             ->where('status', 'published')
+            ->where('category_id','!=', 6)
             ->with(['category', 'tags'])
             ->orderBy('published_at', 'desc')
             ->get();
@@ -197,7 +198,7 @@ class PostController extends Controller
         
         $post = Post::where('status', 'published')
             ->with(['category', 'tags'])
-            ->where('id', $id)
+            ->where('id',$id)
             ->orderBy('published_at', 'desc')
             ->first();
 
@@ -205,6 +206,26 @@ class PostController extends Controller
             'blog'=>$post,
             'status'=>200,
             'message'=>'Single Blog Post'
+        ]);
+    }
+
+
+    public function caseStudy(Request $request)
+    {
+        $branchId = $request->query('branch');
+        $posts = Post::when($branchId, function ($query) use ($branchId) {
+                $query->where('branch_id', $branchId);
+            })
+            ->where('status', 'published')
+            ->where('category_id','=', 6)
+            ->with(['category', 'tags'])
+            ->orderBy('published_at', 'desc')
+            ->get();
+
+        return response()->json([
+            'blog'=>$posts,
+            'status'=>200,
+            'message'=>'Blogs List'
         ]);
     }
 }
