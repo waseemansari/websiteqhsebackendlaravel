@@ -24,14 +24,18 @@ class SendCourseRegistrationEmail
     public function handle(CourseRegisterEvent $event): void
     {
         $course = $event->course;
-
+        
+        $branch = config('custom.branches.' . $course->branch_id);
+        $course['branchDetails'] = $branch;
         Mail::to($course->email)
             ->send(new CourseRegistrationMail($course));
         
 
           $adminEmail = config('custom.branch_emails.' . $course->branch_id)
         ?? config('custom.company_email');
-
+         $course['adminEmail'] = $adminEmail;
+        
+        
        Mail::to($adminEmail)->send(new CourseRegistrationMailToAdmin($course));
         
     }

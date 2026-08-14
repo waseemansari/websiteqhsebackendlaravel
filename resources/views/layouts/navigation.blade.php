@@ -71,11 +71,16 @@
         <div class="mt-8 border-t border-slate-800 pt-4">
             <div class="flex items-center gap-3 rounded-2xl bg-slate-900/70 p-3">
                 <div class="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-orange-500 text-sm font-semibold text-slate-950">
-                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                    {{ strtoupper(substr(auth()->user()?->name ?? 'U', 0, 1)) }}
                 </div>
                 <div class="min-w-0">
-                    <p class="truncate text-sm font-semibold text-white">{{ Auth::user()->name }}</p>
-                    <p class="truncate text-xs text-slate-400">{{ Auth::user()->email }}</p>
+                    <p class="truncate text-sm font-semibold text-white">
+                        {{ auth()->user()?->name ?? 'Guest' }}
+                    </p>
+
+                    <p class="truncate text-xs text-slate-400">
+                        {{ auth()->user()?->email ?? '' }}
+                    </p>
                 </div>
             </div>
 

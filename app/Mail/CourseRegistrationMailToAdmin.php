@@ -48,6 +48,7 @@ class CourseRegistrationMailToAdmin extends Mailable
             with: [
                 'course' => $this->course,
                 'company' => $this->company,
+                'branch' => $this->course->branchDetails ?? [],
             ]
         );
     }
@@ -62,3 +63,4 @@ class CourseRegistrationMailToAdmin extends Mailable
         return [];
     }
 }
+ 

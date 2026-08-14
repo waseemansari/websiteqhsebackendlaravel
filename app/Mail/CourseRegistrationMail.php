@@ -47,7 +47,8 @@ class CourseRegistrationMail extends Mailable
             view: 'emails.course_register',
             with: [
                 'course' => $this->course,
-                'company' => $this->company,
+                'company' => $this->company, 
+                'branch' => $this->course->branchDetails ?? [],
             ]
         );
     }

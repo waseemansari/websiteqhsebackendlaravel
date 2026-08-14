@@ -4,9 +4,15 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{OnlinePaymentController,NewsletterSubscriberController,PostController,CourseRegisterController,FeedBackController,ContactUsController};
 
-Route::get('/', function () {
+Route::get('/{country?}', function () {
+
+    if (app()->environment('production')) {
+        return redirect()->away('https://app.qhseinternational.com');
+    }
+
     return view('welcome');
-});
+
+})->where('country', 'pakistan|australia|usa|uk|ph|uae|guinea|consultancy-services|about-us|philippines','/');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

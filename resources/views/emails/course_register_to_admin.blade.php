@@ -94,7 +94,7 @@
             <div class="details-box">
                 <strong>Registration Details:</strong><br><br>
 
-                 Registration Date: {{ $course->created_at->format('d/m/Y') }} <br>
+                 Registration Date: {{ $course->created_at->format('m/d/Y') }}  <br>
                
                 <p><strong>{{ $course?->name  }}</strong>! 🎉  Email: {{ $course?->email  }}</p>
                 <p>Mobile Number : {{ $course?->mobile  }}</p>
@@ -114,17 +114,36 @@
 
             <p>If you have any questions, our support team is happy to help.</p>
 
-            <p>
-                Kind Regards,<br>
-                <strong>{{ $company['company_manager'] }}</strong><br>
-                {{ $company['company_name'] }}<br>
-                Tel: {{ $company['company_phone'] }} | Admin: {{ $company['company_admin_phone'] }}<br>
-                <a href="mailto:{{ $company['company_email'] }}">{{ $company['company_email'] }}</a><br>
-                <a href="{{ $company['company_url'] }}">{{ $company['company_url'] }}</a>
-            </p>
+                <p>
+                    Kind Regards,<br>
+
+                    <strong>
+                        {{ $branch['manager'] ?? $company['company_manager'] }}
+                    </strong><br>
+                     {{ $branch['name'] ?? $company['company_name'] }}
+                      <br>
+
+                    Tel:
+                    {{ $branch['phone'] ?? $company['company_phone'] }}
+
+                    @if(!empty($branch['admin_phone']))
+                        | Admin: {{ $branch['admin_phone'] }}
+                    @endif
+
+                    <br>
+
+                    <a href="mailto:{{ $branch['email'] ?? $company['company_email'] }}">
+                        {{ $branch['email'] ?? $company['company_email'] }}
+                    </a><br>
+                     <a href="{{ $branch['url'] ?? $company['company_url'] }}">
+                        {{ $branch['url'] ?? $company['company_url'] }}
+                    </a><br>
+                    
+                </p>
+
         </div>
 
-        @include('emails.footer')
+        <!-- @include('emails.footer') -->
     </div>
 </body>
 </html>
