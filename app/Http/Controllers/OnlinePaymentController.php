@@ -18,9 +18,16 @@ class OnlinePaymentController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('online-payments.create');
+         return view('online-payments.create', [
+        'firstName' => $request->query('first-name'),
+        'lastName' => $request->query('last-name'),
+        'amount' => $request->query('amount'),
+        'email' => $request->query('your-email'),
+        'phone' => $request->query('phone'),
+        'merchantParam1' => $request->query('merchant_param1'),
+    ]);
     }
 
     /**
@@ -67,7 +74,7 @@ class OnlinePaymentController extends Controller
             'encrypted_data' => $encrypted_data,
             'access_code' => $access_code,
         ]);
-    }
+    } 
 
 
     public function response(Request $request)

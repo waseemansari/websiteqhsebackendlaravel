@@ -17,7 +17,7 @@ return [
     'company_admin_phone' => '+971501104559',
     'company_time'=>'9 AM - 6 PM, Monday to Saturday',
     'company_address'=>'Office 2403, Donna Towers, Dubai Silicon Oasis, Dubai, United Arab Emirates',
-    'company_url' => 'https://www.qhseinternational.com/',
+    'company_url' => 'https://app.qhseinternational.com/',
     'elearning_url' => 'https://elearnings.qhseinternational.com/login',
     'allowed_emails' => [
             'waseem0320@gmail.com',
@@ -44,7 +44,7 @@ return [
                 'name'=>'QHSE International Australia',
                 'time'=>'9 AM - 6 PM, Monday to Saturday',
                 'address'=>'7, Noosa Court Upper Caboolture QLD, 4510.',
-                'url'=>'https://www.qhseinternational.com/australia'
+                'url'=>'https://app.qhseinternational.com/australia'
             ],
 
             'usa' => [
@@ -55,7 +55,7 @@ return [
                 'admin_phone' => '+ 1 954-569-0677',
                 'time'=>'9 AM - 6 PM, Monday to Saturday',
                 'address'=>'25 SE 2nd Ave Ste 550 #720 Miami, FL 33131.',
-                'url'=>'https://www.qhseinternational.com/usa'
+                'url'=>'https://app.qhseinternational.com/usa'
 
             ],
 
@@ -68,7 +68,7 @@ return [
                 'name'=>'QHSE International UK',
                 'time'=>'9 AM - 6 PM, Monday to Saturday',
                 'address'=>'Bromley, BR1 1AC, London, United Kingdom.',
-                'url'=>'https://www.qhseinternational.com/uk'
+                'url'=>'https://app.qhseinternational.com/uk'
             ],
 
             'ph' => [
@@ -80,7 +80,7 @@ return [
                 'name'=>'QHSE International Philippines',
                 'time'=>'9 AM - 6 PM, Monday to Saturday',
                 'address'=>'Unit 3006 One Corporate Center Bldg. Julia Vargas Ave. Ortigas Center, San Antonio 1605, Pasig City, Philippines.',
-                'url'=>'https://www.qhseinternational.com/ph' 
+                'url'=>'https://app.qhseinternational.com/ph' 
                 
             ],
 
@@ -93,7 +93,7 @@ return [
                 'name'=>'QHSE International UAE',
                 'time'=>'9 AM - 6 PM, Monday to Saturday',
                 'address'=>'Office 2403 - Donna Towers, 46 Street, Dubai Silicon Oasis, Dubai, UAE',
-                'url'=>'https://www.qhseinternational.com/uae'
+                'url'=>'https://app.qhseinternational.com/uae'
             ],
 
             'guinea' => [
@@ -104,7 +104,7 @@ return [
                 'name'=>'QHSE International Guinea',
                 'time'=>'9 AM - 6 PM, Monday to Saturday',
                 'address'=>'Conakry (Guinee) Commune de Ratoma - BP:2668.',
-                'url'=>'https://www.qhseinternational.com/guinea'
+                'url'=>'https://app.qhseinternational.com/guinea'
             ],
 
         ],
