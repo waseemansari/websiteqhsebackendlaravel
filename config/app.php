@@ -117,7 +117,8 @@ return [
     | Supported drivers: "file", "cache"
     |
     */
-
+    'frontend_url' => env('FRONTEND_URL', 'http://localhost:3000'),
+    
     'maintenance' => [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),

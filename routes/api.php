@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{OnlinePaymentController,NewsletterSubscriberController,CourseRegisterController,FeedBackController,ContactUsController,PostController};
+use App\Http\Controllers\Api\PaymentController;
 
 Route::post('course-register', [CourseRegisterController::class, 'store']);
 Route::post('contact-us', [ContactUsController::class, 'store']);
@@ -15,4 +16,12 @@ Route::get('case-study', [PostController::class, 'caseStudy']);
 
 Route::post('news-letters', [NewsletterSubscriberController::class, 'store']);
 
-Route::post('payment', [OnlinePaymentController::class,'store']);
+Route::post('payment', [OnlinePaymentController::class,'store']); 
+
+
+
+Route::post('/create-payment-intent', [PaymentController::class, 'createPaymentIntent']);
+Route::post('/stripe/checkout-success', [PaymentController::class, 'checkoutSuccess']);
+Route::get('/stripe/checkout-success', [PaymentController::class, 'checkoutSuccess']);
+
+Route::get('/course-list/{branch_id}', [CourseRegisterController::class, 'courseList']);
