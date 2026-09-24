@@ -28,7 +28,7 @@ return [
         'uk' => 'info.uk@qhseinternational.com',
         'ph' => 'patricia@qhseinternational.com',
         'uae' => 'sarahg@qhseinternational.com',
-        'guinea' => 'info@qhseinternational.com',
+        'guinea' => 'info.gn@qhseinternational.com',
     ],
 
 

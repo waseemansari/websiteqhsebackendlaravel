@@ -1,12 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{OnlinePaymentController,NewsletterSubscriberController,CourseRegisterController,FeedBackController,ContactUsController,PostController};
+use App\Http\Controllers\{OnlinePaymentController,NewsletterSubscriberController,CourseRegisterController,FeedBackController,ContactUsController,PostController,OnsiteTrainingRequestController};
 use App\Http\Controllers\Api\PaymentController;
 
 Route::post('course-register', [CourseRegisterController::class, 'store']);
 Route::post('contact-us', [ContactUsController::class, 'store']);
 Route::post('feedback', [FeedBackController::class, 'store']);
+Route::apiResource('onsite-training-requests', OnsiteTrainingRequestController::class);
 
 Route::get('blog', [PostController::class, 'ApiGetBlogPosts']);
 Route::get('blog/{id}', [PostController::class, 'ApiGetSingleBlogPost']);

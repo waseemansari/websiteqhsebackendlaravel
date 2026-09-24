@@ -183,7 +183,7 @@ class PostController extends Controller
             ->where('status', 'published')
             ->where('category_id','!=', 6)
             ->with(['category', 'tags'])
-            ->orderBy('published_at', 'desc')
+            ->orderBy('id', 'desc')
             ->get();
 
         return response()->json([
