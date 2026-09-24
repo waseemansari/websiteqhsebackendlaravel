@@ -99,15 +99,7 @@
             </p>
 
             <br>
-            <div class="details-box">
-                <strong>Registration Details:</strong><br><br>
-
-                Registration Date: {{ $course->created_at->format('d/m/Y') }} <br>
-               
-                Course: {{ $course?->course }} <br>
-
-                <br>
-            </div>
+            
 
 
             <p>If you have any questions, our support team is happy to help.</p>

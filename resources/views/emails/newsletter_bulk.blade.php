@@ -101,19 +101,9 @@
                 </p>
             @endif
 
-            <p>If you have any questions, our support team is happy to help.</p>
-            <p>Thank you for subscribing to our newsletter.</p>
-            <p>
-                Kind Regards,<br>
-                <strong>{{ $company['company_manager'] }}</strong><br>
-                {{ $company['company_name'] }}<br>
-                Tel: {{ $company['company_phone'] }} | Admin: {{ $company['company_admin_phone'] }}<br>
-                <a href="mailto:{{ $company['company_email'] }}">{{ $company['company_email'] }}</a><br>
-                <a href="{{ $company['company_url'] }}">{{ $company['company_url'] }}</a>
-            </p>
+           
         </div>
 
-        @include('emails.footer')
     </div>
 </body>
 </html>

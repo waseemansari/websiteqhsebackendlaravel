@@ -22,3 +22,16 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+.htaccess
+accounting/
+crm/
+demo_crm/
+demoelearning/
+dlearning/
+ebs/
+elearning/
+import/
+rewardpoints/
+twi/
+public/php_errorlog

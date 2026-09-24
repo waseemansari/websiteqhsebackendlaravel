@@ -70,22 +70,7 @@ We invite you to visit the QHSE International website to read our latest article
 and continue learning from our team of experts.
 </p>
 
-<p style="text-align:center; margin:30px 0;">
-    <a href="https://app.qhseinternational.com/blog/main"
-       target="_blank"
-       style="
-            background:#0d6efd;
-            color:#ffffff;
-            padding:14px 28px;
-            border-radius:6px;
-            text-decoration:none;
-            font-weight:bold;
-            font-size:16px;
-            font-family:Arial, Helvetica, sans-serif;
-            display:inline-block;">
-        📖 Read Our Latest Blogs
-    </a>
-</p>
+
 
 <p>
 Stay connected with us for more educational QHSE blogs, compliance insights,
