@@ -20,5 +20,5 @@ class SendOnsiteTrainingRequestEmail
 
         Mail::to($onsiteRequest->work_email)
             ->send(new OnsiteTrainingRequestMailToUser($onsiteRequest));
-    }
+    }///
 }
