@@ -23,12 +23,12 @@
         <div class="email-header">
             <h1>{{ $company['company_name'] }}</h1>
         </div>
-
+      
         <div class="email-body">
             <p>Dear {{ $request->contact_name }},</p>
 
             <p>
-                Thank you for submitting your on-site training request. We have received your information successfully.
+                Thank you for requesting on-site training with QHSE International USA. We have received your information and will review your facility, equipment, and training needs before preparing a quote.
             </p>
 
             <div class="next-step">
