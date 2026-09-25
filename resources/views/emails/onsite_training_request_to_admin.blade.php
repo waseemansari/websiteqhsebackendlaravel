@@ -24,7 +24,7 @@
         <div class="email-body">
             @if($isAdmin)
                 <p>Dear Admin,</p>
-                <p>A new on-site training request was submitted. Please check the details below.</p>
+                <p>A new {{ $requestType }} on-site training request was submitted. Please check the details below.</p>
             @else
                 <p>Dear {{ $request->contact_name }},</p>
                 <p>Thank you for contacting {{ $company['company_name'] }}. We received your on-site training request and our team will contact you soon.</p>
@@ -33,6 +33,7 @@
             <div class="details-box">
                 <strong>On-Site Training Request Details:</strong><br><br>
                 <p><strong>Request Date:</strong> {{ $request->created_at?->format('m/d/Y') }}</p>
+                <p><strong>Request Type:</strong> {{ $requestType }}</p>
                 <p><strong>Branch:</strong> {{ $request->branch_id }}</p>
                 <p><strong>Company:</strong> {{ $request->company_name }}</p>
                 <p><strong>Contact Name:</strong> {{ $request->contact_name }}</p>
@@ -40,7 +41,13 @@
                 <p><strong>Phone:</strong> {{ $request->phone }}</p>
                 <p><strong>Facility Address:</strong> {{ $request->facility_address }}, {{ $request->city }}, {{ $request->state }} {{ $request->zip_code }}</p>
                 <p><strong>Training Needs:</strong><br>{{ $request->training_needs }}</p>
+                @if($request->training_topic)
+                    <p><strong>Training Topic:</strong><br>{{ $request->training_topic }}</p>
+                @endif
                 <p><strong>Number of Participants:</strong> {{ $request->number_of_participants }}</p>
+                @if($request->delivery_preference)
+                    <p><strong>Delivery Preference:</strong> {{ $request->delivery_preference }}</p>
+                @endif
                 <p><strong>Equipment Conditions:</strong><br>{{ $request->equipment_conditions }}</p>
                 <p><strong>Preferred Dates:</strong><br>{{ $request->preferred_dates }}</p>
                 <p><strong>Additional Details:</strong><br>{{ $request->additional_details ?: 'None provided' }}</p>

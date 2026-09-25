@@ -16,6 +16,7 @@ class OnsiteTrainingRequestController extends Controller
 
     public function store(Request $request)
     {
+        
         $onsiteRequest = OnsiteTrainingRequest::create($request->validate($this->rules()));
         event(new OnsiteTrainingRequestEvent($onsiteRequest));
        
@@ -53,17 +54,20 @@ class OnsiteTrainingRequestController extends Controller
 
         return [
             'company_name' => [$required, 'string', 'max:255'],
+            'type' => [$updating ? 'sometimes' : 'required', Rule::in(['individual', 'group'])],
             'branch_id' => [$updating ? 'sometimes' : 'nullable', 'string', 'max:100'],
             'contact_name' => [$required, 'string', 'max:255'],
             'work_email' => [$required, 'email', 'max:255'],
             'phone' => [$required, 'string', 'max:50'],
-            'facility_address' => [$required, 'string', 'max:255'],
+            'facility_address' => ['nullable', 'string', 'max:255'],
             'city' => [$required, 'string', 'max:100'],
             'state' => [$required, 'string', 'max:100'],
             'zip_code' => [$required, 'string', 'max:20'],
             'training_needs' => [$required, 'string'],
             'number_of_participants' => [$required, 'integer', 'min:1'],
-            'equipment_conditions' => [$required, 'string'],
+            'equipment_conditions' => ['nullable', 'string'],
+            'training_topic' => ['nullable', 'string'],
+            "delivery_preference" => ['nullable', 'string'],
             'preferred_dates' => [$required, 'string'],
             'additional_details' => ['nullable', 'string'],
             'status' => [$updating ? 'sometimes' : 'nullable', Rule::in(['new', 'contacted', 'completed', 'cancelled'])],

@@ -19,8 +19,10 @@ class OnsiteTrainingRequestMailToUser extends Mailable
 
     public function envelope(): Envelope
     {
+        $requestType = $this->request->type === 'group' ? 'group' : 'individual';
+
         return new Envelope(
-            subject: 'We received your on-site training request',
+            subject: "We received your {$requestType} on-site training request",
         );
     }
 
@@ -31,6 +33,7 @@ class OnsiteTrainingRequestMailToUser extends Mailable
             with: [
                 'company' => config('custom'),
                 'branch' => config('custom.branches.' . $this->request->branch_id, []),
+                'requestType' => $this->request->type === 'group' ? 'Group' : 'Individual',
             ],
         );
     }

@@ -28,7 +28,7 @@
             <p>Dear {{ $request->contact_name }},</p>
 
             <p>
-                Thank you for requesting on-site training with QHSE International USA. We have received your information and will review your facility, equipment, and training needs before preparing a quote.
+                Thank you for requesting {{ strtolower($requestType) }} on-site training with QHSE International USA. We have received your information and will review your facility, equipment, and training needs before preparing a quote.
             </p>
 
             <div class="next-step">
@@ -39,9 +39,16 @@
 
             <div class="details-box">
                 <strong>Your Request Summary</strong><br><br>
+                <p><strong>Request type:</strong> {{ $requestType }}</p>
                 <p><strong>Company:</strong> {{ $request->company_name }}</p>
                 <p><strong>Training needs:</strong><br>{{ $request->training_needs }}</p>
+                @if($request->training_topic)
+                    <p><strong>Training topic:</strong><br>{{ $request->training_topic }}</p>
+                @endif
                 <p><strong>Number of participants:</strong> {{ $request->number_of_participants }}</p>
+                @if($request->delivery_preference)
+                    <p><strong>Delivery preference:</strong> {{ $request->delivery_preference }}</p>
+                @endif
                 <p><strong>Preferred dates:</strong><br>{{ $request->preferred_dates }}</p>
                 <p><strong>Branch:</strong> {{ $branch['name'] ?? $request->branch_id }}</p>
             </div>

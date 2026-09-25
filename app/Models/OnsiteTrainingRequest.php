@@ -8,6 +8,7 @@ class OnsiteTrainingRequest extends Model
 {
     protected $fillable = [
         'company_name',
+        'type',
         'branch_id',
         'contact_name',
         'work_email',
@@ -21,6 +22,8 @@ class OnsiteTrainingRequest extends Model
         'equipment_conditions',
         'preferred_dates',
         'additional_details',
+        'training_topic',
+        'delivery_preference',
         'status',
     ];
 }
