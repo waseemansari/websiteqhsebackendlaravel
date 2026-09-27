@@ -77,6 +77,15 @@ class CourseRegisterController extends Controller
         $participant = $request->participant ?? 1;
         $course->price = $course->price * $participant;
         try {
+           
+            $success_url=config('app.frontend_url').'/'.$request->branch_id.'?session_id={CHECKOUT_SESSION_ID}';
+            $cancel_url =config('app.frontend_url').'/'.$request->branch_id.'?cancel=isCancelled';
+           
+            if(isset($request->participant) && $request->participant > 1){
+
+                $success_url='https://urchin-app-25qzu.ondigitalocean.app/'.$request->branch_id.'?session_id={CHECKOUT_SESSION_ID}';
+                $cancel_url ='https://urchin-app-25qzu.ondigitalocean.app/'.$request->branch_id.'?cancel=isCancelled';  
+            }
             $session = Session::create([
                 'mode' => 'payment',
                 'customer_email' => $request->email,
@@ -95,8 +104,9 @@ class CourseRegisterController extends Controller
                 'metadata' => [
                    'course_id' => (string) $course->id,
                 ],
-                'success_url' =>config('app.frontend_url').'/'.$request->branch_id.'?session_id={CHECKOUT_SESSION_ID}',
-                'cancel_url' =>config('app.frontend_url').'/'.$request->branch_id.'?cancel=isCancelled',
+                
+                'success_url' =>$success_url,
+                'cancel_url' => $cancel_url,
             ]);
               
             Payment::create([
