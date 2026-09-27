@@ -15,5 +15,7 @@ class CourseRegister extends Model
         'hear_about',
         'status',
         'branch_id',
+        'company',
+        'participant',
     ];
 }

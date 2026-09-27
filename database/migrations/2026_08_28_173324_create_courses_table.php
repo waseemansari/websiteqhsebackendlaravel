@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('duration')->nullable();
             $table->string('mode')->nullable();
             $table->string('desc')->nullable();
-            $table->string('currency')->nullable(); 
+            $table->string('currency')->nullable();
+             
             $table->enum('status',['new','active','inactive'])->default('new');
 
             $table->timestamps();
