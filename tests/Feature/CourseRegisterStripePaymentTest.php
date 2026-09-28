@@ -25,6 +25,7 @@ it('creates a payment record when usa branch checkout starts', function () {
         'url' => 'https://checkout.stripe.com/pay/cs_test_123',
         'payment_intent' => 'pi_test_123',
         'customer' => 'cus_test_123',
+        'payment_method_types' => ['card'],
     ]);
 
     $response = $this->postJson('/api/course-register', [
@@ -32,9 +33,10 @@ it('creates a payment record when usa branch checkout starts', function () {
         'email' => 'john@example.com',
         'mobile' => '123456789',
         'location' => 'New York',
-        'course' => $course->id,
+        'course' => (string) $course->id,
         'hear_about' => 'Google',
         'branch_id' => 'usa',
+        'participant' => '1',
     ]);
 
     $response->assertOk();

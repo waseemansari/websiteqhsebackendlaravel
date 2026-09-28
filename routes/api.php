@@ -19,10 +19,9 @@ Route::post('news-letters', [NewsletterSubscriberController::class, 'store']);
 
 Route::post('payment', [OnlinePaymentController::class,'store']); 
 
+Route::get('stripe/checkout-success', [PaymentController::class, 'checkoutSuccess']);
+
 
 
 // Route::post('/create-payment-intent', [PaymentController::class, 'createPaymentIntent']);
-// Route::post('/stripe/checkout-success', [PaymentController::class, 'checkoutSuccess']);
-// Route::get('/stripe/checkout-success', [PaymentController::class, 'checkoutSuccess']);
-
 Route::get('/course-list/{branch_id}', [CourseRegisterController::class, 'courseList']);

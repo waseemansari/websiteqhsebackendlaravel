@@ -34,132 +34,148 @@ class CourseRegisterController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-       
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
-            'mobile' => 'required|string',
-            'location' => 'required|string',
-            'course' => 'required|string',
-            'hear_about' => 'required|string',
-            'branch_id' => 'required|string',
-            'company' => 'nullable|string',
-            'type' => 'nullable|string',
-            'participant' => 'nullable|integer|min:1|max:20',
-        ]);
-       
-        $course = Course::findorfail($request->course);
-        
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Validation errors',
-                'errors' => $validator->errors()
-            ], 422);
-        }
-        $CourseRegister = CourseRegister::create($validator->validated());
-        // if($CourseRegister){
-        //     event(new CourseRegisterEvent($CourseRegister));
-        // }
-        //  return response()->json([
-        //             'message' => 'Course Registered successfully our team will contact you soon Thanks',
-        //             'data' => $CourseRegister,
-        //         ], 201);
-       
-           
+{
+    $validator = Validator::make($request->all(), [
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255',
+        'mobile' => 'required|string',
+        'location' => 'required|string',
+        'course' => 'required|string',
+        'hear_about' => 'required|string',
+        'branch_id' => 'required|string',
+        'company' => 'nullable|string',
+        'type' => 'nullable|string',
+        'participant' => 'nullable|integer|min:1|max:20',
+    ]);
 
-        
-
-        if($request->branch_id  !== 'usa'){
-             return response()->json([
-                    'message' => 'Course Registered successfully our team will contact you soon Thanks',
-                    'data' => $CourseRegister,
-                ], 201);
-        }
-        /////////////////
-        if(isset($request->participant) && $request->participant > 1){
-        Stripe::setApiKey(config('services.stripe.secret'));
-        $participant = $request->participant ?? 1;
-        $course->price = $course->price * $participant;
-         try {
-           
-            $success_url=config('app.frontend_url').'/'.$request->branch_id.'?session_id={CHECKOUT_SESSION_ID}';
-            $cancel_url =config('app.frontend_url').'/'.$request->branch_id.'?cancel=isCancelled';
-           
-            if(isset($request->participant) && $request->participant > 1){
-
-                $success_url='https://urchin-app-25qzu.ondigitalocean.app/'.$request->branch_id.'?session_id={CHECKOUT_SESSION_ID}';
-                $cancel_url ='https://urchin-app-25qzu.ondigitalocean.app/'.$request->branch_id.'?cancel=isCancelled';  
-            }
-            $session = Session::create([
-                'mode' => 'payment',
-                'customer_email' => $request->email,
-                'line_items' => [
-                    [
-                        'price_data' => [
-                            'currency' => $course->currency,
-                            'product_data' => [
-                                'name' =>"Course Name : " . $course->name,
-                            ],
-                            'unit_amount' => (int) round($course->price * 100),
-                        ],
-                        'quantity' => 1,
-                    ],
-                ],
-                'metadata' => [
-                   'course_id' => (string) $course->id,
-                ],
-                
-                'success_url' =>$success_url,
-                'cancel_url' => $cancel_url,
-            ]);
-              
-            $payment = Payment::create([
-                'course_registers_id' => $CourseRegister->id,
-                'course_id' => $course->id,
-                'stripe_session_id' => $session->id,
-                'stripe_payment_intent_id' => $session->payment_intent ?? null,
-                'stripe_customer_id' => $session->customer ?? null,
-                'amount' => (float) $course->price,
-                'currency' => $course->currency ?? 'usd',
-                'status' => 'pending',
-                'card_brand' => $session->payment_method_types[0] ?? null,
-                'card_last4' => null,
-            ]);
-             if ($payment) {
-                Mail::to($request->email)->send(
-                    new CoursePaymentConfirmationMail($CourseRegister, $course, $payment)
-                );
-                $adminEmail = config('custom.branch_emails.' . $request->branch_id)
-                    ?? config('custom.company_email');
-
-                Mail::to($adminEmail)->send(
-                    new CoursePaymentReceivedToAdmin($CourseRegister, $course, $payment)
-                );
-            }
-            return response()->json([
-                'success' => true,
-                'message' => 'Course Registered successfully our team will contact you soon Thanks',
-                'data' => $CourseRegister,
-                'checkout_url' =>
-                    $session->url,
-                'stripe_session_id' =>
-                    $session->id,
-            ]);
-
-
-        } catch (\Exception $e) {
-            $CourseRegister->delete();
-            return response()->json([
-                'success' => false,
-                'message' =>'Unable to create payment.',
-                'error' =>$e->getMessage(),
-            ], 500);
-        }
-        }
-        //////////////////
-       
+    if ($validator->fails()) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Validation errors',
+            'errors' => $validator->errors(),
+        ], 422);
     }
+
+    $course = Course::find($request->course);
+
+    if (!$course) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Course not found.',
+        ], 404);
+    }
+
+    $CourseRegister = CourseRegister::create(
+        $validator->validated()
+    );
+
+    // Non-USA: registration only
+    if ($request->branch_id !== 'usa') {
+        return response()->json([
+            'success' => true,
+            'message' => 'Course Registered successfully our team will contact you soon Thanks',
+            'data' => $CourseRegister,
+        ], 201);
+    }
+
+    // USA: Stripe payment
+    $participant = (int) ($request->participant ?? 1);
+
+    if ($participant < 1 || $participant > 20) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Participant count must be between 1 and 20.',
+        ], 422);
+    }
+
+    Stripe::setApiKey(config('services.stripe.secret'));
+
+    $totalPrice = $course->price * $participant;
+
+    try {
+
+        $success_url =
+            config('app.frontend_url')
+            . '/' . $request->branch_id
+            . '?session_id={CHECKOUT_SESSION_ID}';
+
+        $cancel_url =
+            config('app.frontend_url')
+            . '/' . $request->branch_id
+            . '?cancel=isCancelled';
+
+        $session = Session::create([
+            'mode' => 'payment',
+
+            'customer_email' => $request->email,
+
+            'line_items' => [
+                [
+                    'price_data' => [
+                        'currency' => $course->currency,
+
+                        'product_data' => [
+                            'name' => 'Course Name : ' . $course->name,
+                        ],
+
+                        'unit_amount' => (int) round(
+                            $totalPrice * 100
+                        ),
+                    ],
+
+                    'quantity' => 1,
+                ],
+            ],
+
+            'metadata' => [
+                'course_id' => (string) $course->id,
+                'course_register_id' => (string) $CourseRegister->id,
+                'participant' => (string) $participant,
+            ],
+
+            'success_url' => $success_url,
+            'cancel_url' => $cancel_url,
+        ]);
+
+        $payment = Payment::create([
+            'course_registers_id' => $CourseRegister->id,
+            'course_id' => $course->id,
+            'stripe_session_id' => $session->id,
+            'stripe_payment_intent_id' =>
+                $session->payment_intent ?? null,
+            'stripe_customer_id' =>
+                $session->customer ?? null,
+
+            'amount' => $totalPrice,
+            'currency' => $course->currency ?? 'usd',
+
+            'status' => 'pending',
+
+            'card_brand' =>
+                $session->payment_method_types[0] ?? null,
+
+            'card_last4' => null,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Registration created. Redirecting to payment.',
+            'data' => $CourseRegister,
+            'checkout_url' => $session->url,
+            'stripe_session_id' => $session->id,
+        ], 201);
+
+    } catch (\Exception $e) {
+
+        $CourseRegister->delete();
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Unable to create payment.',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
+}
 
     /**
      * Display the specified resource.
