@@ -31,11 +31,13 @@ class CoursePaymentReceivedToAdmin extends Mailable
 
     public function content(): Content
     {
+        $branchId = strtolower(trim($this->registration->branch_id));
+
         return new Content(
             view: 'emails.course_payment_received_to_admin',
             with: [
                 'company' => config('custom'),
-                'branch' => config('custom.branches.' . $this->registration->branch_id, []),
+                'branch' => config('custom.branches.' . $branchId, []),
                 'locationFormat' => implode(' / ', array_filter([
                     $this->course->mode,
                     $this->registration->location,

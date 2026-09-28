@@ -23,6 +23,7 @@ class CoursePaymentConfirmationMail extends Mailable
         
     ) {
         $this->company = config('custom');
+        
     }
 
     public function envelope(): Envelope
@@ -34,12 +35,15 @@ class CoursePaymentConfirmationMail extends Mailable
 
     public function content(): Content
     {
+        $branchId = strtolower(trim($this->registration->branch_id));
+        $branch = config('custom.branches.' . $branchId, []);
+
         return new Content(
             view: 'emails.course_payment_confirmation',
             with: [
+                'branch' => $branch,
                 'company' => $this->company,
-                'companyName' => config('custom.branches.' . $this->registration->branch_id . '.name')
-                    ?? config('custom.company_name'),
+                'companyName' => $branch['name'] ?? config('custom.company_name'),
                 'firstName' => explode(' ', trim($this->registration->name), 2)[0],
                 'courseDates' => 'To be confirmed',
                 'locationFormat' => implode(' / ', array_filter([

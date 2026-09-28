@@ -22,7 +22,7 @@
         </div>
         <div class="email-body">
             <p>Dear Admin,</p>
-            <p>Thank you for registering with QHSE International USA. Your payment has been received, and your place in the course is confirmed.</p>
+            <p>A course payment has been received for {{ $branch['name'] ?? $company['company_name'] }}.</p>
 
             <div class="details-box">
                 <strong>Registration Details</strong>
@@ -36,6 +36,21 @@
                 <p><strong>Payment Confirmation:</strong> {{ $transactionNumber }}</p>
                 <p><strong>Branch:</strong> {{ $registration->branch_id }}</p>
             </div>
+
+            <p>
+                Kind Regards,<br>
+                <strong>{{ $branch['manager'] ?? $company['company_manager'] }}</strong><br>
+                {{ $branch['name'] ?? $company['company_name'] }}<br>
+                Tel: {{ $branch['phone'] ?? $company['company_phone'] }}
+                @if(!empty($branch['admin_phone'])) | Admin: {{ $branch['admin_phone'] }} @endif
+                <br>
+                <a href="mailto:{{ $branch['email'] ?? $company['company_email'] }}">
+                    {{ $branch['email'] ?? $company['company_email'] }}
+                </a><br>
+                <a href="{{ $branch['url'] ?? $company['company_url'] }}">
+                    {{ $branch['url'] ?? $company['company_url'] }}
+                </a>
+            </p>
         </div>
     </div>
 </body>

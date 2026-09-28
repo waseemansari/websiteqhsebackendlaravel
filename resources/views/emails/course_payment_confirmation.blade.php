@@ -22,7 +22,7 @@
             <p>Dear {{ $firstName }},</p>
 
             <p>
-                Thank you for registering with {{ $registration->company }}. Your payment has been received, and your place in the course is confirmed.
+                Thank you for registering with {{ $companyName }}. Your payment has been received, and your place in the course is confirmed.
             </p>
 
             <div class="details-box">
