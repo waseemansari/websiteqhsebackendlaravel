@@ -8,7 +8,11 @@ use Illuminate\Support\Facades\Validator;
 use App\Events\CourseRegisterEvent;
 use Auth;
 use Stripe\Stripe; 
+use Mail;
+use App\Mail\CoursePaymentConfirmationMail;
+use App\Mail\CoursePaymentReceivedToAdmin;
 use Stripe\Checkout\Session;
+
 class CourseRegisterController extends Controller
 {
     /**
@@ -31,7 +35,7 @@ class CourseRegisterController extends Controller
      */
     public function store(Request $request)
     {
-        
+       
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
@@ -41,6 +45,7 @@ class CourseRegisterController extends Controller
             'hear_about' => 'required|string',
             'branch_id' => 'required|string',
             'company' => 'nullable|string',
+            'type' => 'nullable|string',
             'participant' => 'nullable|integer|min:1|max:20',
         ]);
        
@@ -53,9 +58,9 @@ class CourseRegisterController extends Controller
             ], 422);
         }
         $CourseRegister = CourseRegister::create($validator->validated());
-        if($CourseRegister){
-            event(new CourseRegisterEvent($CourseRegister));
-        }
+        // if($CourseRegister){
+        //     event(new CourseRegisterEvent($CourseRegister));
+        // }
         //  return response()->json([
         //             'message' => 'Course Registered successfully our team will contact you soon Thanks',
         //             'data' => $CourseRegister,
@@ -76,16 +81,16 @@ class CourseRegisterController extends Controller
         Stripe::setApiKey(config('services.stripe.secret'));
         $participant = $request->participant ?? 1;
         $course->price = $course->price * $participant;
-        try {
+        // try {
            
             $success_url=config('app.frontend_url').'/'.$request->branch_id.'?session_id={CHECKOUT_SESSION_ID}';
             $cancel_url =config('app.frontend_url').'/'.$request->branch_id.'?cancel=isCancelled';
            
-            if(isset($request->participant) && $request->participant > 1){
+            // if(isset($request->participant) && $request->participant > 1){
 
-                $success_url='https://urchin-app-25qzu.ondigitalocean.app/'.$request->branch_id.'?session_id={CHECKOUT_SESSION_ID}';
-                $cancel_url ='https://urchin-app-25qzu.ondigitalocean.app/'.$request->branch_id.'?cancel=isCancelled';  
-            }
+            //     $success_url='https://urchin-app-25qzu.ondigitalocean.app/'.$request->branch_id.'?session_id={CHECKOUT_SESSION_ID}';
+            //     $cancel_url ='https://urchin-app-25qzu.ondigitalocean.app/'.$request->branch_id.'?cancel=isCancelled';  
+            // }
             $session = Session::create([
                 'mode' => 'payment',
                 'customer_email' => $request->email,
@@ -109,7 +114,7 @@ class CourseRegisterController extends Controller
                 'cancel_url' => $cancel_url,
             ]);
               
-            Payment::create([
+            $payment = Payment::create([
                 'course_registers_id' => $CourseRegister->id,
                 'course_id' => $course->id,
                 'stripe_session_id' => $session->id,
@@ -121,7 +126,17 @@ class CourseRegisterController extends Controller
                 'card_brand' => $session->payment_method_types[0] ?? null,
                 'card_last4' => null,
             ]);
+             if ($payment) {
+                Mail::to($request->email)->send(
+                    new CoursePaymentConfirmationMail($CourseRegister, $course, $payment)
+                );
+                $adminEmail = config('custom.branch_emails.' . $request->branch_id)
+                    ?? config('custom.company_email');
 
+                Mail::to($adminEmail)->send(
+                    new CoursePaymentReceivedToAdmin($CourseRegister, $course, $payment)
+                );
+            }
             return response()->json([
                 'success' => true,
                 'message' => 'Course Registered successfully our team will contact you soon Thanks',
@@ -133,14 +148,14 @@ class CourseRegisterController extends Controller
             ]);
 
 
-        } catch (\Exception $e) {
-            $CourseRegister->delete();
-            return response()->json([
-                'success' => false,
-                'message' =>'Unable to create payment.',
-                'error' =>$e->getMessage(),
-            ], 500);
-        }
+        // } catch (\Exception $e) {
+        //     $CourseRegister->delete();
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' =>'Unable to create payment.',
+        //         'error' =>$e->getMessage(),
+        //     ], 500);
+        // }
         }
         //////////////////
        

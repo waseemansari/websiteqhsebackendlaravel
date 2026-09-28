@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\CoursePaymentConfirmationMail;
+use App\Mail\CoursePaymentReceivedToAdmin;
+use App\Models\Course;
+use App\Models\CourseRegister;
 use App\Models\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Stripe\Checkout\Session;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
@@ -38,6 +43,7 @@ class PaymentController extends Controller
 
     public function checkoutSuccess(Request $request)
     {
+        
         $request->validate([
             'session_id' => 'required|string',
         ]);
@@ -57,6 +63,7 @@ class PaymentController extends Controller
             $payment = Payment::where('stripe_session_id', $request->session_id)->first();
 
             if ($payment) {
+                $wasAlreadyPaid = $payment->status === 'paid';
                 $payment->update([
                     'stripe_payment_intent_id' => $paymentIntent->id,
                     'stripe_customer_id' => $session->customer ?? $paymentIntent->customer,
@@ -65,6 +72,24 @@ class PaymentController extends Controller
                     'card_last4' => $last4,
                     'status' => $paymentIntent->status === 'succeeded' ? 'paid' : 'pending',
                 ]);
+
+                if (!$wasAlreadyPaid && $paymentIntent->status === 'succeeded') {
+                    $registration = CourseRegister::find($payment->course_registers_id);
+                    $course = Course::find($payment->course_id);
+
+                    if ($registration && $course) {
+                        Mail::to($registration->email)->send(
+                            new CoursePaymentConfirmationMail($registration, $course, $payment)
+                        );
+
+                        $adminEmail = config('custom.branch_emails.' . $registration->branch_id)
+                            ?? config('custom.company_email');
+
+                        Mail::to($adminEmail)->send(
+                            new CoursePaymentReceivedToAdmin($registration, $course, $payment)
+                        );
+                    }
+                }
             }
 
             return response()->json([
