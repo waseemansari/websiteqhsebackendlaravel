@@ -35,6 +35,7 @@
                 <p><strong>Payment Amount:</strong> {{ number_format((float) $payment->amount, 2) }} {{ strtoupper($payment->currency) }}</p>
                 <p><strong>Payment Confirmation:</strong> {{ $transactionNumber }}</p>
                 <p><strong>Branch:</strong> {{ $registration->branch_id }}</p>
+                <p><strong>Preferred Date:</strong> {{ $registration->preferred_date ?: 'Not specified' }}</p>
             </div>
 
             <p>

@@ -31,6 +31,7 @@
                 <p><strong>Company:</strong> {{ $registration->company ?: 'N/A' }}</p>
                 <p><strong>Course:</strong> {{ $course->name }}</p>
                 <p><strong>Course Dates:</strong> {{ $courseDates }}</p>
+                <p><strong>Preferred Date:</strong> {{ $registration->preferred_date ?: 'Not specified' }}</p>
                 <p><strong>Location/Format:</strong> {{ $locationFormat ?: 'To be confirmed' }}</p>
                 <p><strong>Payment confirmation:</strong> {{ $transactionNumber }}</p>
             </div>

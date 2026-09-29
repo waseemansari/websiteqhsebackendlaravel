@@ -34,7 +34,7 @@ class CourseRegisterController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
+   {
     $validator = Validator::make($request->all(), [
         'name' => 'required|string|max:255',
         'email' => 'required|string|email|max:255',
@@ -45,6 +45,7 @@ class CourseRegisterController extends Controller
         'branch_id' => 'required|string',
         'company' => 'nullable|string',
         'type' => 'nullable|string',
+        'preferred_date' => 'nullable|string',
         'participant' => 'nullable|integer|min:1|max:20',
     ]);
 

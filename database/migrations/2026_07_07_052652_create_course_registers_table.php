@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('hear_about');
             $table->string('company')->nullable();
             $table->integer('participant')->nullable();
+            $table->string('type')->nullable();
+            $table->string('preferred_date')->nullable();
             $table->enum('status',['new','readed'])->default('new');
             $table->string('branch_id');
             $table->timestamps();

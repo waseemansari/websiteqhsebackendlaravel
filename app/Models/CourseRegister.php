@@ -17,5 +17,7 @@ class CourseRegister extends Model
         'branch_id',
         'company',
         'participant',
+        'type',
+        'preferred_date',
     ];
 }
