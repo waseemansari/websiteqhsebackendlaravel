@@ -8,9 +8,6 @@ use Illuminate\Support\Facades\Validator;
 use App\Events\CourseRegisterEvent;
 use Auth;
 use Stripe\Stripe; 
-use Mail;
-use App\Mail\CoursePaymentConfirmationMail;
-use App\Mail\CoursePaymentReceivedToAdmin;
 use Stripe\Checkout\Session;
 
 class CourseRegisterController extends Controller
@@ -158,29 +155,6 @@ class CourseRegisterController extends Controller
 
             'card_last4' => null,
         ]);
-        if ($payment) {
-
-            // Customer email
-            Mail::to($request->email)->send(
-                new CoursePaymentConfirmationMail(
-                    $CourseRegister,
-                    $course,
-                    $payment
-                )
-            );
-
-            // Admin email
-            $adminEmail = config('custom.branch_emails.' . $request->branch_id)
-                ?? config('custom.company_email');
-
-            Mail::to($adminEmail)->send(
-                new CoursePaymentReceivedToAdmin(
-                    $CourseRegister,
-                    $course,
-                    $payment
-                )
-            );
-        }
         return response()->json([
             'success' => true,
             'message' => 'Registration created. Redirecting to payment.',
