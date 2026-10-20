@@ -30,6 +30,9 @@
                 <p><strong>Email:</strong> {{ $registration->email }}</p>
                 <p><strong>Company:</strong> {{ $registration->company ?: 'N/A' }}</p>
                 <p><strong>Course:</strong> {{ $course->name }}</p>
+                @if(!empty($registration->course_type))
+                    <p><strong>Course Type:</strong> {{ $registration->course_type }}</p>
+                @endif
                 <p><strong>Course Dates:</strong> To be confirmed</p>
                 <p><strong>Location/Format:</strong> {{ $locationFormat ?: 'To be confirmed' }}</p>
                 <p><strong>Payment Amount:</strong> {{ number_format((float) $payment->amount, 2) }} {{ strtoupper($payment->currency) }}</p>

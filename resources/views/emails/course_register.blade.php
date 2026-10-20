@@ -94,6 +94,9 @@
             <p>
                 This is an email confirmation that your exam registration request has been received and will be processed accordingly.
             </p>
+            @if(!empty($course->course_type))
+                <p><strong>Course Type:</strong> {{ $course->course_type }}</p>
+            @endif
             <p>
                 Kindly make sure that the payment for the exam has been made successfully in order to be registered!!
             </p>

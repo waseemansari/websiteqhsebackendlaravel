@@ -19,5 +19,6 @@ class CourseRegister extends Model
         'participant',
         'type',
         'preferred_date',
+        'course_type',
     ];
 }

@@ -46,6 +46,7 @@ class CourseRegisterController extends Controller
         'company' => 'nullable|string',
         'type' => 'nullable|string',
         'preferred_date' => 'nullable|string',
+        'course_type' => 'nullable|string',
         'participant' => 'nullable|integer|min:1|max:20',
     ]);
 

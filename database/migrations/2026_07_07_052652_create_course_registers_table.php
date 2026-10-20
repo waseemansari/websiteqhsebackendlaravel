@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('participant')->nullable();
             $table->string('type')->nullable();
             $table->string('preferred_date')->nullable();
+            $table->string('course_type')->nullable();
             $table->enum('status',['new','readed'])->default('new');
             $table->string('branch_id');
             $table->timestamps();
