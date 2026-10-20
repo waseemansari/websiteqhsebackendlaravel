@@ -40,13 +40,15 @@ class CourseRegistrationMailToAdmin extends Mailable
     /**
      * Get the message content definition.
      */
-    public function content(): Content
+    public function content(): Content 
     {
-        
+        $courseName = $this->course->courseInfo?->name ?? $this->course->course;
+
          return new Content(
             view: 'emails.course_register_to_admin',
             with: [
                 'course' => $this->course,
+                'courseName' => $courseName,
                 'company' => $this->company,
                 'branch' => $this->course->branchDetails ?? [],
             ]

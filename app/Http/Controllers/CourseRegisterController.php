@@ -9,7 +9,9 @@ use App\Events\CourseRegisterEvent;
 use Auth;
 use Stripe\Stripe; 
 use Stripe\Checkout\Session;
-
+use Mail;
+use App\Mail\CourseRegistrationMail;
+use App\Mail\CourseRegistrationMailToAdmin;
 class CourseRegisterController extends Controller
 {
     /**
@@ -70,6 +72,33 @@ class CourseRegisterController extends Controller
 
     // Non-USA: registration only
     if ($request->branch_id !== 'usa') {
+        
+        Mail::to($request->email)->send(new CourseRegistrationMail($CourseRegister));
+
+        $adminEmail = config('custom.branch_emails.' . $request->branch_id)
+            ?? config('custom.company_email');
+
+        if ($adminEmail) {
+            Mail::to($adminEmail)->send(new CourseRegistrationMailToAdmin($CourseRegister));
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Course Registered successfully our team will contact you soon Thanks',
+            'data' => $CourseRegister,
+        ], 201);
+    }
+    //////usa course registration with stripe payment
+    if ($request->course == 28 || $request->course == 29) {
+        Mail::to($request->email)->send(new CourseRegistrationMail($CourseRegister));
+
+        $adminEmail = config('custom.branch_emails.' . $request->branch_id)
+            ?? config('custom.company_email');
+
+        if ($adminEmail) {
+            Mail::to($adminEmail)->send(new CourseRegistrationMailToAdmin($CourseRegister));
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'Course Registered successfully our team will contact you soon Thanks',

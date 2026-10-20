@@ -105,7 +105,7 @@
 
                 <p>Hear About : {{ $course?->hear_about  }}</p>
                 
-                <p>Course : {{ $course?->course  }}</p>
+                <p>Course : {{ $courseName ?? ($course?->courseInfo?->name ?? $course?->course) }}</p>
 
                 @if(!empty($course?->course_type))
                     <p>Course Type : {{ $course?->course_type }}</p>
