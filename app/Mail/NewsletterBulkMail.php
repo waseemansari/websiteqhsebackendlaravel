@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Post;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
@@ -44,6 +45,12 @@ class NewsletterBulkMail extends Mailable
                 'company' => $this->company,
                 'recipientName' => $this->recipientName,
                 'unsubscribeUrl' => $this->unsubscribeUrl,
+                'latestBlogs' => Post::query()
+                    ->where('status', 'published')
+                    ->where('category_id', '!=', 6)
+                    ->orderByDesc('id')
+                    ->limit(4)
+                    ->get(),
             ]
         );
     }

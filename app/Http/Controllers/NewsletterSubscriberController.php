@@ -108,7 +108,7 @@ Mail::to($subscriber->email)->send(
                 'success' => true,
                 'data' => $subscriber,
             ]);
-        }
+        } 
 
         return view('newsletter.show', compact('subscriber'));
     }

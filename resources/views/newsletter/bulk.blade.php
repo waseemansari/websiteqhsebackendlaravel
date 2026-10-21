@@ -44,4 +44,52 @@
             </div>
         </form>
     </div>
+
+    @push('scripts')
+        <script src="https://cdn.tiny.cloud/1/jh3wxkkytapr4l9oso0n0rvslmc08exbtavrbpubb86dm89g/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                tinymce.init({
+                    selector: '#message',
+                    height: 400,
+                    menubar: true,
+                    plugins: [
+                        'advlist',
+                        'autolink',
+                        'lists',
+                        'link',
+                        'image',
+                        'charmap',
+                        'preview',
+                        'anchor',
+                        'searchreplace',
+                        'visualblocks',
+                        'code',
+                        'fullscreen',
+                        'insertdatetime',
+                        'media',
+                        'table',
+                        'help',
+                        'wordcount'
+                    ],
+                    toolbar:
+                        'undo redo | ' +
+                        'blocks | ' +
+                        'bold italic underline | ' +
+                        'alignleft aligncenter alignright alignjustify | ' +
+                        'bullist numlist | ' +
+                        'link image media | ' +
+                        'table | ' +
+                        'code',
+                    toolbar_mode: 'wrap',
+                    content_style: `
+                        body {
+                            font-family: Arial, sans-serif;
+                            font-size: 16px;
+                        }
+                    `
+                });
+            });
+        </script>
+    @endpush
 </x-app-layout>

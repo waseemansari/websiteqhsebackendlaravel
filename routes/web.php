@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::post('news-letters/bulk-send', [NewsletterSubscriberController::class, 'sendBulk'])->name('news-letters.bulk.send');
     Route::get('news-letters/unsubscribe/{subscriber}', [NewsletterSubscriberController::class, 'unsubscribe'])->middleware('signed')->name('news-letters.unsubscribe');
     Route::Resource('news-letters', NewsletterSubscriberController::class);
-});
+}); 
 
     Route::get('payment', [OnlinePaymentController::class,'create']);
     Route::post('payment', [OnlinePaymentController::class,'store']);
